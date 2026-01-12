@@ -1,0 +1,56 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0"
+    metadata-complete="true">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>SvPaciente</servlet-name>
+        <servlet-class>servlets.SvPaciente</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SvPaciente</servlet-name>
+        <url-pattern>/SvPaciente</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SvHistorialMedico</servlet-name>
+        <servlet-class>servlets.SvHistorialMedico</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SvHistorialMedico</servlet-name>
+        <url-pattern>/SvHistorialMedico</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SvTurno</servlet-name>
+        <servlet-class>servlets.SvTurno</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SvTurno</servlet-name>
+        <url-pattern>/SvTurno</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SvDashboard</servlet-name>
+        <servlet-class>servlets.SvDashboard</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SvDashboard</servlet-name>
+        <url-pattern>/SvDashboard</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SvOdontograma</servlet-name>
+        <servlet-class>servlets.SvOdontograma</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SvOdontograma</servlet-name>
+        <url-pattern>/SvOdontograma</url-pattern>
+    </servlet-mapping>
+</web-app>

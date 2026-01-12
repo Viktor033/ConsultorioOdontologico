@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    padding: 0;;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+h2 {
+    text-align: center;
+}
+
+.contenedor-odonto-sup {
+    display: flex;               /* Coloca los elementos uno al lado del otro */
+    justify-content: center;     /* Centra los elementos horizontalmente */
+    gap: .5px;                   /* Espacio más grande entre los dientes */
+    padding: 5px;               /* Espacio alrededor de todo el contenedor */
+    flex-wrap: wrap;             /* Permite que los dientes se muevan a la siguiente fila si no hay suficiente espacio */
+           
+}
+
+.contenedor-odonto-inf {
+    display: flex;               /* Coloca los elementos uno al lado del otro */
+    justify-content: center;     /* Centra los elementos horizontalmente */
+    gap: .5px;                   /* Espacio más grande entre los dientes */
+    padding: 5px;               /* Espacio alrededor de todo el contenedor */
+    flex-wrap: wrap;             /* Permite que los dientes se muevan a la siguiente fila si no hay suficiente espacio */
+}
+
+.diente {
+    display: flex;
+    flex-direction: column;      /* Imagen y SVG se colocan uno debajo del otro */
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    position: relative;
+}
+
+.diente img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.diente h2 {
+    position: absolute;
+    top: -20px;                 /* Coloca el título encima del diente */
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 1rem;
+}
+
+svg {
+    border: 1px solid black;
+    width: 50px;                /* Tamaño pequeño para cada SVG */
+    height: 50px;
+}
+
+.seccion {
+    stroke: black;
+    stroke-width: 1.5;
+    cursor: pointer;
+}
+
+.normal {
+    fill: white;
+}
+
+.tratamiento1 {
+    fill: red;
+}
+
+.tratamiento2 {
+    fill: blue;
+}
+
+.tratamiento3 {
+    fill: green;
+}

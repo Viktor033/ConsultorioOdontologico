@@ -1,0 +1,333 @@
+/* Estilos de Impresión */
+@media print {
+    @page {
+        margin: 2cm;
+        size: A4;
+    }
+
+    /* Ocultar elementos de navegación y control */
+    .sidebar, 
+    .topbar, 
+    .btn, 
+    .card-header button,
+    .form-row,
+    #selector-paciente,
+    .sidebar-nav, 
+    #sin-paciente,
+    .modal {
+        display: none !important;
+    }
+
+    /* Ajustar layout para impresión */
+    .app-container {
+        grid-template-columns: 1fr !important;
+        background: white !important;
+    }
+
+    .main-content {
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    /* Mostrar encabezado de reporte */
+    #reporte-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #333;
+        padding-bottom: 1rem;
+    }
+
+    #paciente-info {
+        display: block !important;
+        background: none !important;
+        color: black !important;
+        border: 1px solid #ddd;
+        page-break-after: avoid;
+    }
+
+    #paciente-info h3 {
+        font-size: 1.2rem !important;
+    }
+
+    /* Sección del Último Odontograma para Impresión */
+    #ultimo-odontograma-print {
+        display: block !important;
+        page-break-inside: avoid;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    #antecedentes-print {
+        display: block !important;
+        page-break-inside: avoid;
+        margin-bottom: 2rem;
+        border: 2px solid #000;
+        padding: 1rem;
+    }
+
+    #evolucion-print {
+        display: block !important;
+    }
+
+    .table-evolucion {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    .table-evolucion th, .table-evolucion td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .table-evolucion th {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    #timeline-container, .card, #selector-paciente, #paciente-info button {
+        display: none !important;
+    }
+
+    /* Ajustar odontograma para que quepa en papel */
+    .diente-wrapper {
+        transform: scale(0.65); /* Reescalado para que no sea enorme */
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        display: inline-block;
+        margin: -5px; /* Compensar el margin del scale */
+    }
+
+    .diente-geometrico, .sector, .leyenda-color {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* === GEOMETRÍA DEL ODONTOGRAMA (Replicado para asegurar impresión) === */
+    .diente-geometrico {
+        display: grid !important;
+        grid-template-columns: 12px 20px 12px !important;
+        grid-template-rows: 12px 20px 12px !important;
+        gap: 1px !important;
+        width: auto !important;
+        margin: 5px auto !important;
+        background-color: #64748b !important; 
+        border: 1px solid #000 !important;
+    }
+
+    .sector {
+        background-color: #ffffff; /* Base blanca */
+        border: 0.5px solid #ccc !important;
+    }
+
+    /* Grid Areas */
+    .sector-top { grid-column: 2; grid-row: 1; }
+    .sector-bottom { grid-column: 2; grid-row: 3; }
+    .sector-left { grid-column: 1; grid-row: 2; }
+    .sector-right { grid-column: 3; grid-row: 2; }
+    .sector-centro { grid-column: 2; grid-row: 2; }
+
+    /* ESTADOS DE COLOR PRIORITARIOS - Usando las clases generadas por JS: estado-caries, etc. */
+    .sector.estado-caries { background-color: #f43f5e !important; }
+    .sector.estado-obturado { background-color: #0ea5e9 !important; }
+    .sector.estado-tratamiento { background-color: #10b981 !important; } /* OJO: Key en JS es 'tratamiento' */
+    .sector.estado-corona { background-color: #f59e0b !important; }
+    .sector.estado-ausente { background-color: #334155 !important; }
+    .sector.estado-sano { background-color: #ffffff !important; }
+
+    
+    /* Indicadores de leyenda */
+    .leyenda-color {
+        border: 1px solid #000 !important;
+        width: 15px !important;
+        height: 15px !important;
+        display: inline-block !important;
+    }
+    
+    .leyenda-color.estado-caries { background-color: #f43f5e !important; }
+    .leyenda-color.estado-obturado { background-color: #0ea5e9 !important; }
+    .leyenda-color.estado-conducto { background-color: #10b981 !important; }
+    .leyenda-color.estado-corona { background-color: #f59e0b !important; }
+    .leyenda-color.estado-ausente { background-color: #334155 !important; }
+
+    .timeline {
+        padding-left: 0 !important;
+        margin-top: 2rem;
+    }
+
+    .timeline::before {
+        display: none;
+    }
+
+    .timeline-item::before {
+        display: none;
+    }
+
+    .consulta-card {
+        border: 1px solid #eee;
+        box-shadow: none !important;
+        margin-bottom: 1.5rem;
+        page-break-inside: avoid;
+    }
+
+    /* Forzar fondo blanco y texto negro */
+    body {
+        background-color: white !important;
+        color: black !important;
+        font-size: 12pt;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* === MEJORAS ODONTOGRAMA IMPRESIÓN === */
+    
+    /* Contenedor sin sombras ni bordes redondos complejos */
+    .odontograma-container, 
+    .contenedor-principal, 
+    .contenedor-odonto-sup, 
+    .contenedor-odonto-inf,
+    #odonto-print-container {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 5px !important;
+        margin-bottom: 10px !important;
+        display: block !important; /* Asegurar bloque */
+        width: 100% !important;
+    }
+
+    /* Forzar visibilidad de las secciones del odontograma */
+    .odonto-section {
+        display: block !important;
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important; /* Quitar animación fade-in */
+        page-break-inside: avoid;
+    }
+
+    /* Arcadas en fila para imprimir */
+    .seccion-temporal > div, 
+    .seccion-permanente > div {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    /* Filas de dientes */
+    .seccion-temporal > div > div,
+    .seccion-permanente > div > div {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 1rem !important; /* Reducir gap si es necesario */
+    }
+    
+    .arcada {
+        display: flex !important;
+        flex-direction: row !important; /* Asegurar fila */
+        gap: 2px !important;
+    }
+
+    /* Dientes con bordes definidos */
+    .diente-wrapper {
+        transform: scale(0.65); /* Escala para que entren */
+        transform-origin: top center;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 45px !important; /* Forzar ancho para evitar colapso */
+        height: 60px !important;
+    }
+
+    .diente-geometrico {
+        border: 1px solid #000 !important;
+    }
+
+    .diente {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    /* Asegurar colores de fondo exactos */
+    .sector {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* FORZAR COLORES EN CONTENEDOR DE IMPRESIÓN (Alta especificidad) */
+    #odonto-print-container .sector.estado-caries { background-color: #ef4444 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #odonto-print-container .sector.estado-obturado { background-color: #3b82f6 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #odonto-print-container .sector.estado-tratamiento { background-color: #10b981 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #odonto-print-container .sector.estado-corona { background-color: #eab308 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #odonto-print-container .sector.estado-ausente { background-color: #333 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #odonto-print-container .sector.estado-sano { background-color: #fff !important; }
+}
+
+/* Ocultar header de reporte en pantalla */
+#reporte-header {
+    display: none;
+}
+
+#ultimo-odontograma-print {
+    display: none;
+}
+
+/* Modo Impresión de Consentimiento */
+@media print {
+    body.imprimiendo-consentimiento * {
+        visibility: hidden;
+    }
+    
+    body.imprimiendo-consentimiento #modal-consentimiento,
+    body.imprimiendo-consentimiento #modal-consentimiento .modal-body,
+    body.imprimiendo-consentimiento #modal-consentimiento .modal-body * {
+        visibility: visible;
+    }
+
+    body.imprimiendo-consentimiento #modal-consentimiento {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background: white;
+        display: block !important; /* Asegurar que se vea */
+        z-index: 9999;
+    }
+
+    /* Override crítico para mostrar el contenido del modal */
+    body.imprimiendo-consentimiento #modal-consentimiento .modal {
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: static !important;
+    }
+
+    body.imprimiendo-consentimiento #modal-consentimiento .modal-header,
+    body.imprimiendo-consentimiento #modal-consentimiento .modal-footer,
+    body.imprimiendo-consentimiento .modal-close {
+        display: none !important;
+    }
+    
+    body.imprimiendo-consentimiento #modal-consentimiento .modal-body {
+        position: static; /* Cambiado de absolute a static para flujo normal */
+        width: 100%;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+    }
+}

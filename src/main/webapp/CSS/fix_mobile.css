@@ -1,0 +1,50 @@
+
+/* FIX: Reducir gap en calendario móvil */
+@media (max-width: 768px) {
+    .content-area {
+        padding: 1rem; /* Reducir padding general */
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Forzar ancho completo de contenedores en móvil */
+    .calendar-container, 
+    .turnos-dia-panel,
+    .card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: none !important;
+    }
+
+    .calendar-header {
+        border-bottom: 1px solid var(--color-gray-100);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+}
+
+/* FIX: Corrección de color de fondo "Crema" -> "Claro" */
+:root {
+    --bg-secondary: #f8fafc !important; /* Forzar un tono Slate-50 más limpio */
+}
+
+body {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* FIX GLOBAL: Clase para forzar ancho completo siempre */
+.full-width-block {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+/* FIX GLOBAL: Content Area debe ocupar todo el ancho */
+.content-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}

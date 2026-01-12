@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Consultorio Odontológico</title>
+    
+    <!-- CSS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="CSS/main.css?v=2.1">
+    <link rel="stylesheet" href="CSS/fix_mobile.css?v=1.0">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/ca702ea505.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-tooth"></i>
+                    <div class="sidebar-logo-text">
+                        <h1>DentalCare</h1>
+                        <p>Sistema de Gestión</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html" class="active">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pacientes.html">
+                            <i class="fas fa-users"></i>
+                            <span>Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="calendario.html">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="historia-clinica.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Historias Clínicas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Barra Superior -->
+            <div class="topbar">
+                <div style="display: flex; align-items: center;">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="topbar-title">
+                        <h2>Dashboard</h2>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-icon btn-secondary">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="btn btn-icon btn-secondary">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área de Contenido -->
+            <div class="content-area">
+                <!-- Tarjetas de Estadísticas -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <!-- Total Pacientes -->
+                    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="opacity: 0.9; margin-bottom: 0.5rem; font-size: 1.1rem;">Total Pacientes</p>
+                                <h3 style="font-size: 3rem; font-weight: 700;">0</h3>
+                            </div>
+                            <i class="fas fa-users" style="font-size: 4rem; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Turnos Hoy -->
+                    <div class="card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="opacity: 0.9; margin-bottom: 0.5rem; font-size: 1.1rem;">Turnos Hoy</p>
+                                <h3 style="font-size: 3rem; font-weight: 700;">0</h3>
+                            </div>
+                            <i class="fas fa-calendar-check" style="font-size: 4rem; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Consultas del Mes -->
+                    <div class="card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="opacity: 0.9; margin-bottom: 0.5rem; font-size: 1.1rem;">Consultas del Mes</p>
+                                <h3 style="font-size: 3rem; font-weight: 700;">0</h3>
+                            </div>
+                            <i class="fas fa-file-medical" style="font-size: 4rem; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Pendientes -->
+                    <div class="card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="opacity: 0.9; margin-bottom: 0.5rem; font-size: 1.1rem;">Pendientes</p>
+                                <h3 style="font-size: 3rem; font-weight: 700;">0</h3>
+                            </div>
+                            <i class="fas fa-clock" style="font-size: 4rem; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de Contenido -->
+                <div class="grid-responsive">
+                    <!-- Próximos Turnos -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Próximos Turnos</h3>
+                            <a href="calendario.html" class="btn btn-sm btn-primary">
+                                <i class="fas fa-calendar-plus"></i>
+                                Nuevo Turno
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>Paciente</th>
+                                            <th>Motivo</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="proximos-turnos">
+                                        <tr>
+                                            <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                                <i class="fas fa-calendar-times" style="font-size: 3rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i>
+                                                No hay turnos programados para hoy
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accesos Rápidos -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Accesos Rápidos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <a href="pacientes.html" class="btn btn-secondary" style="justify-content: flex-start;">
+                                    <i class="fas fa-user-plus"></i>
+                                    Nuevo Paciente
+                                </a>
+                                <a href="calendario.html" class="btn btn-secondary" style="justify-content: flex-start;">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    Agendar Turno
+                                </a>
+                                <a href="historia-clinica.html" class="btn btn-secondary" style="justify-content: flex-start;">
+                                    <i class="fas fa-file-medical-alt"></i>
+                                    Nueva Consulta
+                                </a>
+                                <a href="pacientes.html" class="btn btn-secondary" style="justify-content: flex-start;">
+                                    <i class="fas fa-search"></i>
+                                    Buscar Paciente
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pacientes Recientes -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h3 class="card-title">Pacientes Recientes</h3>
+                        <a href="pacientes.html" class="btn btn-sm btn-secondary">
+                            Ver Todos
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>DNI</th>
+                                        <th>Nombre</th>
+                                        <th>Teléfono</th>
+                                        <th>Email</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pacientes-recientes">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                            <i class="fas fa-users-slash" style="font-size: 3rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i>
+                                            No hay pacientes registrados
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="JS/app.js"></script>
+    <script src="JS/dashboard.js?v=1.2"></script>
+</body>
+</html>

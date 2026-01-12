@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - Consultorio Odontológico</title>
+    <link rel="icon" href="data:,">
+    
+    <!-- CSS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="CSS/main.css?v=2.1">
+    <link rel="stylesheet" href="CSS/fix_mobile.css?v=1.0">
+    <link rel="stylesheet" href="CSS/odontograma.css?v=2.1">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .patient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--color-gray-200);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--spacing-xl);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--color-primary);
+        }
+        
+        .consulta-card {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-md);
+            transition: all var(--transition-base);
+        }
+        
+        .consulta-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .consulta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--color-gray-100);
+        }
+        
+        .odontograma-container {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            margin-top: var(--spacing-md);
+        }
+        
+        .dientes-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .diente {
+            aspect-ratio: 1;
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--border-radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .diente:hover {
+            border-color: var(--color-primary);
+            transform: scale(1.05);
+        }
+        
+        .diente-numero {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .diente-icono {
+            font-size: 1.5rem;
+            margin: var(--spacing-xs) 0;
+        }
+        
+        .diente.sano {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .diente.caries {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        
+        .diente.tratado {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .diente.extraido {
+            background-color: var(--color-gray-200);
+            border-color: var(--color-gray-400);
+            opacity: 0.5;
+        }
+        
+        .leyenda {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .leyenda-color {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid;
+        }
+    </style>
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/ca702ea505.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/print.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-tooth"></i>
+                    <div class="sidebar-logo-text">
+                        <h1>DentalCare</h1>
+                        <p>Sistema de Gestión</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pacientes.html">
+                            <i class="fas fa-users"></i>
+                            <span>Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="calendario.html">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="historia-clinica.html" class="active">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Historias Clínicas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Encabezado de Reporte (Solo Impresión) -->
+            <div id="reporte-header">
+                <h1>Historia Clínica Odontológica</h1>
+                <p>DentalCare - Consultorio Odontológico Integral</p>
+                <p>Fecha de Emisión: <span id="fecha-impresion"></span></p>
+            </div>
+
+            <!-- Barra Superior (Oculta en Impresión) -->
+            <div class="topbar">
+                <div style="display: flex; align-items: center;">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="topbar-title">
+                        <h2>Historia Clínica</h2>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-primary" onclick="abrirModalNuevaConsulta()">
+                        <i class="fas fa-plus"></i>
+                        Nueva Consulta
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportarPDF()">
+                        <i class="fas fa-print"></i>
+                        Imprimir / PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área de Contenido -->
+            <div class="content-area">
+                <!-- Selector de Paciente -->
+                <div class="card">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="flex: 1;">
+                            <label class="form-label">Seleccionar Paciente</label>
+                            <select id="selector-paciente" class="form-select" onchange="cargarHistoriaClinica()">
+                                <option value="">Seleccione un paciente</option>
+                            </select>
+                        </div>
+                        <div style="width: 200px;">
+                            <label class="form-label">Tipo de Dentición</label>
+                            <select id="filtro-denticion" class="form-select" onchange="filtrarOdontograma()">
+                                <option value="todos">Ver Completo</option>
+                                <option value="permanente">Solo Adultos</option>
+                                <option value="temporal">Solo Niños</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" style="margin-top: auto;" onclick="buscarPaciente()">
+                            <i class="fas fa-search"></i>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Información del Paciente -->
+                <div id="paciente-info" class="patient-header" style="display: none;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <p style="opacity: 0.9; margin-bottom: 0.25rem;">Paciente</p>
+                            <h3 id="paciente-nombre" style="font-size: 1.5rem; font-weight: 700;"></h3>
+                        </div>
+                        <div>
+                            <p style="opacity: 0.9; margin-bottom: 0.25rem;">DNI</p>
+                            <h3 id="paciente-dni" style="font-size: 1.5rem; font-weight: 700;"></h3>
+                        </div>
+                        <div>
+                            <p style="opacity: 0.9; margin-bottom: 0.25rem;">Edad</p>
+                            <h3 id="paciente-edad" style="font-size: 1.5rem; font-weight: 700;"></h3>
+                        </div>
+                        <div>
+                            <p style="opacity: 0.9; margin-bottom: 0.25rem;">Obra Social</p>
+                            <h3 id="paciente-obra-social" style="font-size: 1.5rem; font-weight: 700;"></h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Botonera de Acciones Paciente -->
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-sm" style="background: rgba(255,255,255,0.2); color:white; border: 1px solid white;" onclick="abrirModalAntecedentes()">
+                            <i class="fas fa-notes-medical"></i> Antecedentes Médicos
+                        </button>
+                        <button type="button" class="btn btn-sm" style="background: rgba(255,255,255,0.2); color:white; border: 1px solid white;" onclick="abrirModalConsentimiento()">
+                            <i class="fas fa-file-signature"></i> Consentimiento Informado
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Antecedentes (Visible solo en impresión por defecto, o expandible) -->
+                <div id="antecedentes-print" style="display: none; margin-bottom: 2rem; border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
+                    <h3>Antecedentes Médicos</h3>
+                    <ul id="lista-antecedentes-print" style="list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <!-- Se llena con JS -->
+                    </ul>
+                </div>
+
+                <!-- Último Odontograma (Visible solo en impresión) -->
+                <div id="ultimo-odontograma-print">
+                    <h3>Estado Odontológico Actual</h3>
+                    <div id="odonto-print-container">
+                        <!-- Se renderizará por JS -->
+                    </div>
+                </div>
+
+                <!-- Planilla de Evolución (Impresión) -->
+                <div id="evolucion-print" style="display: none;">
+                    <h3>Planilla de Evolución</h3>
+                    <table class="table-evolucion">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Fecha</th>
+                                <th style="width: 45%;">Tratamiento Realizado / Observaciones</th>
+                                <th style="width: 10%;">Debe</th>
+                                <th style="width: 10%;">Haber</th>
+                                <th style="width: 10%;">Saldo</th>
+                                <th style="width: 10%;">Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody id="evolucion-body-print">
+                            <!-- Se llena con JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Timeline de Consultas -->
+                <div id="timeline-container" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Historial de Consultas</h3>
+                            <span id="total-consultas" style="color: var(--text-secondary); font-size: 0.875rem;">
+                                0 consultas registradas
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline" id="timeline-consultas">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje sin paciente -->
+                <div id="sin-paciente" class="card">
+                    <div style="text-align: center; padding: 4rem; color: var(--text-secondary);">
+                        <i class="fas fa-user-md" style="font-size: 4rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i>
+                        <h3 style="margin-bottom: 0.5rem;">Selecciona un paciente</h3>
+                        <p>Elige un paciente del selector para ver su historia clínica</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nueva Consulta -->
+    <div id="modal-consulta" class="modal-overlay">
+        <div class="modal" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Nueva Consulta</h3>
+                <button class="modal-close" onclick="cerrarModalConsulta()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-consulta" onsubmit="guardarConsulta(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Fecha *</label>
+                            <input type="date" id="consulta-fecha" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Número de Consulta</label>
+                            <input type="number" id="consulta-numero" class="form-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Motivo de Consulta *</label>
+                        <input type="text" id="consulta-motivo" class="form-input" required
+                               placeholder="Ej: Dolor de muelas, Control, Limpieza...">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Diagnóstico</label>
+                        <textarea id="consulta-diagnostico" class="form-textarea"
+                                  placeholder="Diagnóstico del profesional..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tratamiento Realizado</label>
+                        <textarea id="consulta-tratamiento" class="form-textarea"
+                                  placeholder="Descripción del tratamiento..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Medicamentos Recetados</label>
+                        <textarea id="consulta-medicamentos" class="form-textarea"
+                                  placeholder="Medicamentos y posología..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notas Adicionales</label>
+                        <textarea id="consulta-notas" class="form-textarea"
+                                  placeholder="Observaciones, próxima cita, etc..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Debe ($)</label>
+                            <input type="number" id="consulta-debe" class="form-input" min="0" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Haber ($)</label>
+                            <input type="number" id="consulta-haber" class="form-input" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+
+                    <!-- Odontograma -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-teeth"></i> Odontograma de la Sesión
+                        </label>
+                        <div class="odontograma-container">
+                            <div id="odontograma-modal">
+                                <!-- Se renderizará el odontograma -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalConsulta()">
+                    Cancelar
+                </button>
+                <button type="submit" form="form-consulta" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Guardar Consulta
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Antecedentes Médicos -->
+    <div id="modal-antecedentes" class="modal-overlay">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Antecedentes Médicos</h3>
+                <button class="modal-close" onclick="cerrarModalAntecedentes()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-antecedentes" onsubmit="guardarAntecedentes(event)">
+                    <div class="antecedentes-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <label><input type="checkbox" name="ant" value="Alergia a analgésicos"> Alergia a analgésicos</label>
+                        <label><input type="checkbox" name="ant" value="Alergia a drogas/medicamentos"> Alergia a drogas</label>
+                        <label><input type="checkbox" name="ant" value="Anemia"> Anemia</label>
+                        <label><input type="checkbox" name="ant" value="Asma bronquial"> Asma bronquial</label>
+                        <label><input type="checkbox" name="ant" value="Ataques convulsivos"> Ataques convulsivos</label>
+                        <label><input type="checkbox" name="ant" value="Diabetes"> Diabetes</label>
+                        <label><input type="checkbox" name="ant" value="Dolencia cardiaca"> Dolencia cardiaca</label>
+                        <label><input type="checkbox" name="ant" value="Embarazo"> Embarazo</label>
+                        <label><input type="checkbox" name="ant" value="Enfermedades venéreas"> Enfermedades venéreas</label>
+                        <label><input type="checkbox" name="ant" value="Fiebre reumática"> Fiebre reumática</label>
+                        <label><input type="checkbox" name="ant" value="Hepatitis"> Hepatitis</label>
+                        <label><input type="checkbox" name="ant" value="Hipertensión"> Hipertensión</label>
+                        <label><input type="checkbox" name="ant" value="Problemas renales"> Problemas renales</label>
+                        <label><input type="checkbox" name="ant" value="Sangrado excesivo"> Sangrado excesivo</label>
+                        <label><input type="checkbox" name="ant" value="HIV"> HIV</label>
+                        <label><input type="checkbox" name="ant" value="Marcapasos"> Marcapasos</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalAntecedentes()">Cancelar</button>
+                <button type="submit" form="form-antecedentes" class="btn btn-success">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Consentimiento Informado -->
+    <div id="modal-consentimiento" class="modal-overlay">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Consentimiento Informado</h3>
+                <button class="modal-close" onclick="cerrarModalConsentimiento()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto; text-align: justify; padding: 1rem;">
+                <p><strong>CONSENTIMIENTO INFORMADO DE ODONTOLOGÍA</strong></p>
+                <p>Por la presente, autorizo al Dr./Dra. tratante y/o asociados o ayudantes a realizar el tratamiento informado en la presente.</p>
+                <p>He conversado con el profesional sobre la naturaleza y propósitos del tratamiento, sobre la posibilidad de complicaciones, los riesgos y posibles métodos alternativos.</p>
+                <p>Autorizo a que se me realicen los servicios o tratamientos adicionales que considere razonables incluyendo la administración de anestesia local, prácticas radiológicas y otros métodos de diagnóstico.</p>
+                <br>
+                <p>Declaro haber sido informado y haber comprendido acabadamente la conveniencia del Tratamiento, proceso por el cual se remueve el nervio infectado, dañado o muerto del diente, como alternativa a la extracción.</p>
+                <br>
+                <p>Entiendo que la odontología no es una ciencia exacta y que, por lo tanto, no se me han dado garantías sobre el resultado del tratamiento.</p>
+                
+                <br><br><br><br>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem; padding: 0 1rem;">
+                    <div style="text-align: center; border-top: 1px solid #000; padding-top: 0.5rem; width: 40%;">
+                        <p style="margin: 0; font-weight: 600;">Dr./Dra.</p>
+                        <p style="margin: 0; font-size: 0.8rem; color: #666;">Firma y Sello</p>
+                    </div>
+                    
+                    <div style="text-align: center; border-top: 1px solid #000; padding-top: 0.5rem; width: 40%;">
+                        <p style="margin: 0; font-weight: 600;">Paciente</p>
+                        <p style="margin: 0; font-size: 0.8rem; color: #666;">Firma y Aclaración</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalConsentimiento()">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="imprimirConsentimiento()">Imprimir Consentimiento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <script src="JS/app.js"></script>
+    <script src="JS/historia-clinica.js?v=1.7"></script>
+</body>
+</html>
