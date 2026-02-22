@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Turnos - Consultorio Odontológico</title>
+    
+    <!-- CSS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="CSS/main.css?v=2.2">
+    <link rel="stylesheet" href="CSS/fix_mobile.css?v=1.0">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .calendar-container {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--color-gray-100);
+        }
+        
+        .calendar-month-year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .calendar-weekday {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: var(--spacing-sm);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-xs);
+        }
+        
+        .calendar-day-cell {
+            aspect-ratio: 1;
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            min-height: 80px;
+        }
+        
+        .calendar-day-cell:hover {
+            background-color: var(--color-gray-50);
+            border-color: var(--color-primary);
+        }
+        
+        .calendar-day-cell.other-month {
+            opacity: 0.3;
+        }
+        
+        .calendar-day-cell.today {
+            background-color: var(--color-primary-light);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        
+        .calendar-day-number {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .calendar-day-cell.today .calendar-day-number {
+            color: white;
+        }
+        
+        .calendar-appointments {
+            margin-top: var(--spacing-xs);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .calendar-appointment {
+            font-size: 0.625rem;
+            padding: 2px 4px;
+            border-radius: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .appointment-pendiente {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .appointment-confirmado {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .appointment-completado {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .turnos-dia-panel {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .turno-item {
+            padding: var(--spacing-md);
+            border-left: 4px solid var(--color-primary);
+            background-color: var(--color-gray-50);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-sm);
+            transition: all var(--transition-fast);
+        }
+        
+        .turno-item:hover {
+            background-color: var(--color-gray-100);
+            transform: translateX(4px);
+        }
+        
+        .turno-hora {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.125rem;
+        }
+        
+        .turno-paciente {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: var(--spacing-xs) 0;
+        }
+        
+        .turno-motivo {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/ca702ea505.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-tooth"></i>
+                    <div class="sidebar-logo-text">
+                        <h1>DentalCare</h1>
+                        <p>Sistema de Gestión</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pacientes.html">
+                            <i class="fas fa-users"></i>
+                            <span>Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="calendario.html" class="active">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="historia-clinica.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Historias Clínicas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Barra Superior -->
+            <div class="topbar">
+                <div style="display: flex; align-items: center;">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="topbar-title">
+                        <h2>Calendario de Turnos</h2>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-primary" onclick="abrirModalNuevoTurno()">
+                        <i class="fas fa-calendar-plus"></i>
+                        Nuevo Turno
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área de Contenido -->
+            <div class="content-area">
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <!-- Calendario -->
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h3 class="calendar-month-year" id="calendar-month-year"></h3>
+                            <div class="calendar-nav">
+                                <button class="btn btn-sm btn-secondary" onclick="mesAnterior()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary" onclick="hoy()">
+                                    Hoy
+                                </button>
+                                <button class="btn btn-sm btn-secondary" onclick="mesSiguiente()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-weekdays">
+                            <div class="calendar-weekday">Dom</div>
+                            <div class="calendar-weekday">Lun</div>
+                            <div class="calendar-weekday">Mar</div>
+                            <div class="calendar-weekday">Mié</div>
+                            <div class="calendar-weekday">Jue</div>
+                            <div class="calendar-weekday">Vie</div>
+                            <div class="calendar-weekday">Sáb</div>
+                        </div>
+                        
+                        <div class="calendar-days" id="calendar-days">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Panel de Turnos del Día -->
+                    <div class="turnos-dia-panel full-width-block" style="min-height: 400px; display: flex; flex-direction: column;">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">
+                            Turnos del Día
+                        </h3>
+                        <p id="fecha-seleccionada" style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem;">
+                            Selecciona un día
+                        </p>
+                        <div id="turnos-del-dia" style="flex-grow: 1;">
+                            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                                <i class="fas fa-calendar-day" style="font-size: 4rem; opacity: 0.3; display: block; margin-bottom: 1.5rem;"></i>
+                                <span style="font-size: 1.1rem;">Haz clic en un día para ver los turnos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leyenda (Movida dentro del contenedor flex para igualar ancho) -->
+                    <div class="card full-width-block" style="padding: 2rem;">
+                        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+                            <h4 style="font-weight: 700; font-size: 1.2rem; color: var(--text-primary);">Estados:</h4>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="badge appointment-pendiente" style="padding: 0.5em 1em; font-size: 0.9rem;">Pendiente</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="badge appointment-confirmado" style="padding: 0.5em 1em; font-size: 0.9rem;">Confirmado</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="badge appointment-completado" style="padding: 0.5em 1em; font-size: 0.9rem;">Completado</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="badge badge-error" style="padding: 0.5em 1em; font-size: 0.9rem;">Cancelado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nuevo/Editar Turno -->
+    <div id="modal-turno" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-turno-titulo">Nuevo Turno</h3>
+                <button class="modal-close" onclick="cerrarModalTurno()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-turno" onsubmit="guardarTurno(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Fecha *</label>
+                            <input 
+                                type="date" 
+                                id="turno-fecha" 
+                                class="form-input" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hora *</label>
+                            <input 
+                                type="time" 
+                                id="turno-hora" 
+                                class="form-input" 
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Paciente *</label>
+                        <select id="turno-paciente" class="form-select" required>
+                            <option value="">Seleccione un paciente</option>
+                            <!-- Se llenará dinámicamente -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Motivo de Consulta *</label>
+                        <input 
+                            type="text" 
+                            id="turno-motivo" 
+                            class="form-input" 
+                            required
+                            placeholder="Ej: Control, Limpieza, Extracción, etc."
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Estado</label>
+                        <select id="turno-estado" class="form-select">
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="CONFIRMADO">Confirmado</option>
+                            <option value="COMPLETADO">Completado</option>
+                            <option value="CANCELADO">Cancelado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Observaciones</label>
+                        <textarea 
+                            id="turno-observaciones" 
+                            class="form-textarea"
+                            placeholder="Notas adicionales sobre el turno..."
+                        ></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalTurno()">
+                    Cancelar
+                </button>
+                <button type="submit" form="form-turno" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="JS/app.js"></script>
+    <script src="JS/calendario.js?v=1.4"></script>
+</body>
+</html>

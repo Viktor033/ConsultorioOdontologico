@@ -1,0 +1,299 @@
+/* Fondo oscuro de la página */
+body {
+    background-color: #F5F5DC;  /* Un tono oscuro */
+    color: #fff;  /* Texto en color blanco para resaltar */
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Barra de navegación lateral */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #2c3e50;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 0;
+}
+
+/* Contenedor de icono en la barra lateral */
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.icon-container i {
+    font-size: 4rem;
+    color: #ffffff;
+}
+
+.icon-container p {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 1rem;
+    text-align: left;
+    background-color: #34495e;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    margin: 0.5rem;
+    transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+
+.sidebar ul li:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 0.5rem;
+}
+
+/* Barra de botones */
+.botones-barra {
+    position: fixed; /* Barra fija en la parte superior */
+    top: 0;
+    left: 250px; /* Ancho de la barra lateral */
+    width: calc(100% - 250px); /* Ocupa el resto del ancho */
+    height: 60px; /* Altura de la barra */
+    background-color: #2c3e50; /* Color de fondo */
+    display: flex; /* Elementos internos en fila */
+    align-items: center; /* Centra verticalmente el contenido */
+    padding: 10px; /* Espaciado interno */
+    gap: 10px; /* Espaciado entre botones */
+    z-index: 999; /* Sobrepone la barra sobre otros elementos */
+    border-bottom: 2px solid #332F2C; /* Borde inferior Gris Oscuro*/
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); /* Sombra más marcada */
+}
+
+/* Estilos generales para los botones */
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Tamaño aumentado */
+    height: 60px; /* Tamaño aumentado */
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-size: 24px; /* Tamaño de ícono aumentado */
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Efecto hover para cada botón */
+.action-btn:hover {
+    background-color: #ffffff;
+    color: #2c3e50;
+    border: 2px solid currentColor;
+}
+
+/* Estilos específicos para los botones de acción */
+.action-btn-agregar:hover { color: #28a745; } /* Verde */
+.action-btn-modificar:hover { color: #ffc107; } /* Amarillo */
+.action-btn-eliminar:hover { color: #dc3545; } /* Rojo */
+.action-btn-buscar:hover { color: #007bff; } /* Azul */
+.action-btn-imprimir:hover { color: #6c757d; } /* Gris */
+
+/* Tooltip personalizado */
+.action-btn::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -35px; /* Ajusta la distancia del tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10; /* Asegura que el tooltip esté encima de otros elementos */
+}
+
+/* Muestra el tooltip al hacer hover */
+.action-btn:hover::after {
+    opacity: 1;
+}
+
+/* Contenedor de imagen */
+.contenedor-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 250px);
+    height: calc(100vh - 60px); /* Ajustado para no sobrepasar el viewport */
+    margin-left: 250px;
+    overflow: hidden;
+}
+
+.contenedor-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin-top: 0;
+}
+
+/* Footer */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Contenedor general del Form*/
+.main-content {
+    margin-left: 250px; /* Ancho de la barra lateral */
+    margin-top: 60px;  /* Altura de la barra superior */
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo blanco para el contenido */
+    min-height: calc(100vh - 60px - 60px); /* Restando el espacio del footer */
+    box-sizing: border-box;
+}
+
+/* Contenedor general del formulario */
+.form-container {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #CDCDCD; /* Gris claro */
+    border-radius: 8px;
+    border: 2px solid #9D9D9D;  /* Borde oscuro */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+
+/* Título del formulario */
+.form-container h2 {
+    color: #000000; 
+    font-weight: bold; 
+    text-align: center; 
+}
+
+/* Estilos para cada fila */
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+/* Contenedor individual de cada campo */
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para las etiquetas */
+.form-group label {
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 5px;
+}
+
+/* Campos de entrada */
+.form-group input, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustes para el textarea */
+.form-group textarea {
+    resize: none; /* Desactiva el redimensionamiento en todos los textareas */
+}
+
+/* Botones de acción del formulario */
+.form-action-btn-guardar,
+.form-action-btn-cancelar,
+.form-action-btn-reset {
+    margin: 10px;
+    width: 120px; /* Aumenta el ancho del botón */
+    height: 50px; /* Aumenta la altura del botón */
+    font-size: 18px; /* Tamaño del texto */
+    padding: 10px 20px; /* Espaciado interno adicional */
+    border-radius: 10px; /* Mantén un diseño redondeado */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Efecto suave en hover */
+}
+
+/* Botón Guardar */
+.form-action-btn-guardar {
+    background-color: #28a745;
+    color: white;
+}
+
+.form-action-btn-guardar:hover {
+    background-color: #218838;
+}
+
+/* Botón Cancelar */
+.form-action-btn-cancelar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.form-action-btn-cancelar:hover {
+    background-color: #c82333;
+}
+
+/* Botón Reset */
+.form-action-btn-reset {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-action-btn-reset:hover {
+    background-color: #0056b3;
+} 

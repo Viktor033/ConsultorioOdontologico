@@ -71,11 +71,30 @@ public class SvPaciente extends HttpServlet {
     }
 
     @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
+        if (control == null) {
+            System.out.println("ERROR: Controladora es null en SvPaciente.doPost");
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            response.getWriter()
+                    .write("{\"error\": \"Servidor no disponible: no se pudo conectar a la base de datos.\"}");
+            return;
+        }
 
         try {
             // Leer el cuerpo de la petición (JSON)
@@ -96,6 +115,12 @@ public class SvPaciente extends HttpServlet {
             String dni = jsonObject.getString("dniPaciente", "");
             if (dni.isEmpty())
                 dni = jsonObject.getString("dni", ""); // Fallback
+
+            if (dni.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"El DNI es obligatorio.\"}");
+                return;
+            }
 
             System.out.println("Intentando crear paciente con DNI: " + dni);
 

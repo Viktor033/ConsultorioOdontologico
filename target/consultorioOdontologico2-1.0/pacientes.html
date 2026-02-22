@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - Consultorio Odontológico</title>
+    
+    <!-- CSS -->
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="CSS/main.css?v=2.1">
+    <link rel="stylesheet" href="CSS/fix_mobile.css?v=1.0">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/ca702ea505.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-tooth"></i>
+                    <div class="sidebar-logo-text">
+                        <h1>DentalCare</h1>
+                        <p>Sistema de Gestión</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pacientes.html" class="active">
+                            <i class="fas fa-users"></i>
+                            <span>Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="calendario.html">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Agenda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="historia-clinica.html">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Historias Clínicas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Barra Superior -->
+            <div class="topbar">
+                <div style="display: flex; align-items: center;">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="topbar-title">
+                        <h2>Gestión de Pacientes</h2>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-primary" onclick="abrirModalNuevoPaciente()">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo Paciente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área de Contenido -->
+            <div class="content-area">
+                <!-- Barra de Búsqueda y Filtros -->
+                <div class="card">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="flex: 1;">
+                            <input 
+                                type="text" 
+                                id="buscar-paciente" 
+                                class="form-input" 
+                                placeholder="Buscar por nombre, apellido o DNI..."
+                                onkeyup="buscarPacientes()"
+                            >
+                        </div>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-filter"></i>
+                            Filtros
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Pacientes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Lista de Pacientes</h3>
+                        <span id="total-pacientes" style="color: var(--text-secondary); font-size: 0.875rem;">
+                            Total: 0 pacientes
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>DNI</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Teléfono</th>
+                                        <th>Email</th>
+                                        <th>Obra Social</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-pacientes">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 3rem;">
+                                            <div class="spinner" style="margin: 0 auto;"></div>
+                                            <p style="margin-top: 1rem; color: var(--text-secondary);">Cargando pacientes...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nuevo/Editar Paciente -->
+    <div id="modal-paciente" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-paciente-titulo">Nuevo Paciente</h3>
+                <button class="modal-close" onclick="cerrarModalPaciente()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-paciente" onsubmit="guardarPaciente(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">DNI *</label>
+                            <input 
+                                type="text" 
+                                id="paciente-dni" 
+                                class="form-input" 
+                                required
+                                placeholder="Ej: 12345678"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input 
+                                type="date" 
+                                id="paciente-fecha-nac" 
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nombre *</label>
+                            <input 
+                                type="text" 
+                                id="paciente-nombre" 
+                                class="form-input" 
+                                required
+                                placeholder="Nombre del paciente"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Apellido *</label>
+                            <input 
+                                type="text" 
+                                id="paciente-apellido" 
+                                class="form-input" 
+                                required
+                                placeholder="Apellido del paciente"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Teléfono</label>
+                            <input 
+                                type="tel" 
+                                id="paciente-telefono" 
+                                class="form-input"
+                                placeholder="Ej: 11 1234-5678"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                id="paciente-email" 
+                                class="form-input"
+                                placeholder="ejemplo@email.com"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Dirección</label>
+                            <input 
+                                type="text" 
+                                id="paciente-direccion" 
+                                class="form-input"
+                                placeholder="Calle, número, ciudad"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Obra Social</label>
+                            <input 
+                                type="text" 
+                                id="paciente-obra-social" 
+                                class="form-input"
+                                placeholder="Nombre de la obra social"
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalPaciente()">
+                    Cancelar
+                </button>
+                <button type="submit" form="form-paciente" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalles Paciente -->
+    <div id="modal-detalle-paciente" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Detalles del Paciente</h3>
+                <button class="modal-close" onclick="cerrarModalDetalle()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="detalle-paciente-contenido">
+                <!-- Se llenará dinámicamente -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalDetalle()">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="verHistoriaClinica()">
+                    <i class="fas fa-file-medical"></i>
+                    Ver Historia Clínica
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <script src="JS/app.js"></script>
+    <script src="JS/pacientes.js?v=1.2"></script>
+</body>
+</html>

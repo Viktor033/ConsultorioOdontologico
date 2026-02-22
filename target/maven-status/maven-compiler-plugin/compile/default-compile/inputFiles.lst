@@ -23,5 +23,6 @@ C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\logica\Responsable.java
 C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\Persistencia\exceptions\NonexistentEntityException.java
 C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\Persistencia\HorarioJpaController.java
 C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\Persistencia\Persistencia.java
+C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\config\CorsFilter.java
 C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\servlets\SvOdontograma.java
 C:\PROYECTOS\ConsultorioOdonto-main\src\main\java\logica\HistorialMedico.java

@@ -14,15 +14,11 @@ public class Controladora {
 
     public void crearPaciente(String dniPaciente, String nombre, String apellido,
             String telefono, String direccion, Date fecha_nac,
-            String email, String obraSocial, String antecedents) {
-        try {
-            Paciente pacien = new Paciente(dniPaciente, nombre, apellido, telefono,
-                    direccion, fecha_nac, email, obraSocial);
-            pacien.setAntecedents(antecedents != null ? antecedents : "{}");
-            controlPersis.crearPaciente(pacien);
-        } catch (Exception ex) {
-            Logger.getLogger(Controladora.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String email, String obraSocial, String antecedents) throws Exception {
+        Paciente pacien = new Paciente(dniPaciente, nombre, apellido, telefono,
+                direccion, fecha_nac, email, obraSocial);
+        pacien.setAntecedents(antecedents != null ? antecedents : "{}");
+        controlPersis.crearPaciente(pacien);
     }
 
     public List<Paciente> traerPacientes() {
