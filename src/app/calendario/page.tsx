@@ -80,9 +80,9 @@ export default function CalendarPage() {
         : 'Seleccioná una fecha';
 
     return (
-        <div className="page-container" style={{ height: 'calc(100vh - 4rem)', display: 'flex', flexDirection: 'column' }}>
+        <div className="page-container" style={{ minHeight: 'calc(100vh - 4rem)', display: 'flex', flexDirection: 'column' }}>
             {/* Header */}
-            <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="flex-responsive" style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                     <h1 style={{ fontSize: '1.875rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.25rem' }}>Agenda</h1>
                     <p style={{ color: 'var(--text-muted)' }}>Hacé clic en una fecha para ver los turnos de ese día.</p>
@@ -101,7 +101,7 @@ export default function CalendarPage() {
                 </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '1.5rem', flex: 1, overflow: 'hidden' }}>
+            <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '1.5rem', flex: 1, overflow: 'hidden' }}>
 
                 {/* ── Big Calendar ── */}
                 <div className="premium-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>

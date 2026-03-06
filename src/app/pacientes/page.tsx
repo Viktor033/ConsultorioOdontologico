@@ -79,7 +79,7 @@ export default function PatientsPage() {
 
     return (
         <div className="page-container">
-            <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="flex-responsive" style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                     <h1 style={{ fontSize: '1.875rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.25rem' }}>Pacientes</h1>
                     <p style={{ color: 'var(--text-muted)' }}>Maneja la base de datos de tus pacientes y sus expedientes reales.</p>
@@ -111,7 +111,7 @@ export default function PatientsPage() {
                 </div>
             </div>
 
-            <div className="premium-card" style={{ padding: '1rem', marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <div className="premium-card flex-responsive" style={{ padding: '1rem', marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
                 <div style={{ position: 'relative', flex: 1 }}>
                     <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                     <input

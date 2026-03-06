@@ -190,7 +190,7 @@ export default function PatientModal({ isOpen, onClose, onSave, patient }: Patie
                                 <h3 style={{ fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem', paddingBottom: '0.5rem', borderBottom: '1px solid #f1f5f9' }}>
                                     Identificación
                                 </h3>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.875rem' }}>
                                     <Field icon={CreditCard} label="DNI">
                                         <input required name="dniPaciente" value={formData.dniPaciente || ''} onChange={handleChange}
                                             disabled={isEditing} placeholder="Ej: 38451234"
@@ -208,7 +208,7 @@ export default function PatientModal({ isOpen, onClose, onSave, patient }: Patie
                                 <h3 style={{ fontSize: '0.7rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem', paddingBottom: '0.5rem', borderBottom: '1px solid #f1f5f9' }}>
                                     Datos Personales
                                 </h3>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.875rem' }}>
                                     <Field icon={User} label="Nombre">
                                         <input required name="nombre" value={formData.nombre || ''} onChange={handleChange} placeholder="Juan" style={inputStyle} />
                                     </Field>
